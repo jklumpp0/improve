@@ -1,0 +1,16 @@
+{% extends 'improve/base.html' %}
+
+{% block content %}
+	Hi, {{ request.user.first_name }}
+	<form method="post" action="">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="submit" />
+	</form>
+
+	<ul>
+	{% for c in object_list %}
+		<li>{{ c }}</li>	
+	{% endfor %}
+	</ul>
+{% endblock %}

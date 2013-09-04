@@ -1,0 +1,10 @@
+{% extends 'improve/base.html' %}
+
+{% block content %}
+	Hi there {{ request.user }} 
+	<ol>
+	{% for c in object_list %}
+		<li>{{ c.person }} - {{ c }}</li>
+	{% endfor %}
+	</ol>
+{% endblock %}

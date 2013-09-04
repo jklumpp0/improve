@@ -1,0 +1,12 @@
+{% extends 'improve/base.html' %}
+
+{% block content %}
+	Hi there {{ request.user }} 
+
+	<form method="POST">
+		{% csrf_token %}
+		{{ form }}
+		<input type="submit" value="Login" />
+		<input type="hidden" name="next" value="{{ next }}" />
+	</form>
+{% endblock %}
