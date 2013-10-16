@@ -3,7 +3,6 @@ from server.settings import *
 def get_db(name):
     import os
     folder = os.path.dirname(os.path.abspath(__file__))
-    print(os.path.join(folder,name))
     return os.path.join(folder, name)
 
 DATABASES = {
