@@ -1,4 +1,4 @@
-from testserver.settings import *
+from server.settings import *
 
 def get_db(name):
     import os
