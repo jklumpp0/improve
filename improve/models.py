@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Person(models.Model):
-	user = models.ForeignKey(User, default = User.objects.all()[0])
+	user = models.ForeignKey(User)
 	first_name = models.CharField(max_length = 30)
 	last_name = models.CharField(max_length = 30)
 
