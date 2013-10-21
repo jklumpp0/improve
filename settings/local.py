@@ -1,10 +1,5 @@
 from server.settings import *
 
-def get_db(name):
-    import os
-    folder = os.path.dirname(os.path.abspath(__file__))
-    return os.path.join(folder, name)
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
