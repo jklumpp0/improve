@@ -1,0 +1,18 @@
+{% extends 'improve/base.html' %}
+
+{% block content %}
+
+<form method="post" action="">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<input type="submit" value="submit" />
+</form>
+
+<ul>
+{% for cond_type in object_list %}
+	<li>{{ cond_type }}</li>	
+{% endfor %}
+</ul>
+
+{% endblock %}
+

@@ -1,12 +1,26 @@
-from django.http import HttpResponse
-from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
 from django.template import loader, RequestContext
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import ModelFormMixin
 from django.views.generic import CreateView
 from django import forms
-from .models import Condition
+from .models import Condition, MetricType
+from django.contrib.auth.models import User
+import logging
+
+logger = logging.getLogger('improve.views')
+
+def test_manual_view(request):
+    if request.method == 'POST':
+        logger.info('Received: %s, value: %s' % (request.POST, request.POST['first_name']))
+        return HttpResponseRedirect(reverse('manual_view'))
+    else:
+        template = loader.get_template('improve/manual.html')
+        context = RequestContext(request)
+        return HttpResponse(template.render(context))        
 
 def test_view(request):
     context = RequestContext(request, {"name": "Jared"})
@@ -17,6 +31,39 @@ class ConditionForm(forms.ModelForm):
     class Meta:
         model = Condition
         fields = ('metric', 'metric_value')
+
+class ConditionTypeForm(forms.ModelForm):
+    class Meta:
+        model = MetricType
+
+class NameEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name')
+
+def edit_user_view(request):
+    if request.method == 'POST':
+        form = NameEditForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('edit_user'))
+    else:
+        form = NameEditForm(instance = request.user)
+        template = loader.get_template('improve/edit_name.html')
+        context = RequestContext(request, {'form': form})
+        return HttpResponse(template.render(context))
+
+def create_type_view(request):
+    if request.method == 'POST':
+        form = ConditionTypeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('condition_types'))
+    else:
+        form = ConditionTypeForm()
+        return render(request, 'improve/create_type.html',
+                        { 'form': form,
+                          'object_list': MetricType.objects.all() })
 
 class CreateConditionView(CreateView):
     template_name = 'improve/create_condition.html'

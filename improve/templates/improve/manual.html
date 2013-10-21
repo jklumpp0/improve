@@ -1,0 +1,10 @@
+{% extends 'improve/base.html' %}
+
+{% block content %}
+<form action="" method="POST">
+    {% csrf_token %}
+    <input type="text" name="first_name"><label for="first_name">Name</label></input>
+    <input type="submit" value="Save" />
+</form>
+
+{% endblock %}
