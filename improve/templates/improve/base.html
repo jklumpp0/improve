@@ -7,6 +7,9 @@
     <a href="{% url 'edit_user' %}">Settings</a> |
     <a href="{% url 'condition_types' %}">Create Metric</a> |
     <a href="{% url 'condition' %}">Add update</a>
+		{% if not user.is_anonymous %}
+			| <a href="{% url 'improve_logout' %}">Logout</a>
+		{% endif %}
 </div>
 
 {% block content %}

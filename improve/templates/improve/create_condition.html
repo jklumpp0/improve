@@ -1,7 +1,7 @@
 {% extends 'improve/base.html' %}
 
 {% block content %}
-	Hi, {{ request.user.first_name }}
+	Hi, {{ user.first_name }}
 	<form method="post" action="">
 		{% csrf_token %}
 		{{ form.as_p }}

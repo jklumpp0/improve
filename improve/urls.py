@@ -8,6 +8,6 @@ urlpatterns = patterns('',
 	url(r'^settings/$', edit_user_view, name='edit_user'),
 	url(r'^create_metric/$', create_type_view, name="condition_types"),
 	url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': "improve/login.html"}),
-	url(r'^logout/$', 'django.contrib.auth.views.logout')
+	url(r'^logout/$', 'django.contrib.auth.views.logout', name="improve_logout")
 )
 

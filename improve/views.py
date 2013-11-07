@@ -41,6 +41,7 @@ class NameEditForm(forms.ModelForm):
         model = User
         fields = ('first_name', 'last_name')
 
+@login_required(login_url = '/improve/login')
 def edit_user_view(request):
     if request.method == 'POST':
         form = NameEditForm(request.POST, instance=request.user)
@@ -53,6 +54,7 @@ def edit_user_view(request):
         context = RequestContext(request, {'form': form})
         return HttpResponse(template.render(context))
 
+@login_required(login_url = '/improve/login')
 def create_type_view(request):
     if request.method == 'POST':
         form = ConditionTypeForm(request.POST)
