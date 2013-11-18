@@ -7,10 +7,12 @@
 		{{ form.as_p }}
 		<input type="submit" value="submit" />
 	</form>
-
+	{% for t, conditions in object_list.iteritems %}
+    <h3>{{ t }}</h3>
 	<ul>
-	{% for c in object_list %}
-		<li>{{ c }}</li>	
-	{% endfor %}
+        {% for c in conditions %}
+            <li>{{ c }}</li>	
+        {% endfor %}
 	</ul>
+	{% endfor %}
 {% endblock %}

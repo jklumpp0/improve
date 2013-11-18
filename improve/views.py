@@ -80,10 +80,16 @@ class CreateConditionView(CreateView):
         }
 
     def get_context_data(self, **kwargs):
-        objects = Condition.objects.filter(user = self.request.user)
+        conditions = Condition.objects.filter(user = self.request.user)
+
+        # Convert the list of conditions to a dictionary by condition type
+        from collections import defaultdict
+        conditions_by_type = defaultdict(list)
+        for condition in conditions:
+            conditions_by_type[condition.metric].append(condition)
 
         kwargs['s'] = CreateConditionView.success_url
-        kwargs['object_list'] = objects
+        kwargs['object_list'] = dict(conditions_by_type)
         kwargs['request'] = self.request
         return super(CreateView, self).get_context_data(**kwargs)
 
