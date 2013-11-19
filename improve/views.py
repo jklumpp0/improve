@@ -80,7 +80,9 @@ class CreateConditionView(CreateView):
         }
 
     def get_context_data(self, **kwargs):
-        conditions = Condition.objects.filter(user = self.request.user)
+        conditions = Condition.objects \
+                              .filter(user = self.request.user) \
+                              .order_by("-date")
 
         # Convert the list of conditions to a dictionary by condition type
         from collections import defaultdict
