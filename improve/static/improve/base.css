@@ -3,3 +3,16 @@ h3 {
     font-size: 1.1em;
 }
 
+ul {
+    padding: 5px;
+    list-style-type: none;
+}
+
+span.inline-edit {
+    display: none;
+}
+
+span.inline-val {
+    cursor: pointer;
+}
+

@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 import logging
 
 logger = logging.getLogger('improve.views')
+logger.info("LOADED!")
 
 def test_manual_view(request):
     if request.method == 'POST':
@@ -88,7 +89,9 @@ class CreateConditionView(CreateView):
         from collections import defaultdict
         conditions_by_type = defaultdict(list)
         for condition in conditions:
-            conditions_by_type[condition.metric].append(condition)
+            form = ConditionForm(instance = condition)
+            editable = (condition, form)
+            conditions_by_type[condition.metric].append(editable)
 
         kwargs['s'] = CreateConditionView.success_url
         kwargs['object_list'] = dict(conditions_by_type)
@@ -96,9 +99,16 @@ class CreateConditionView(CreateView):
         return super(CreateView, self).get_context_data(**kwargs)
 
     def form_valid(self, form):
-        tmp_condition = Condition(user = self.request.user)
+        if self.kwargs.has_key('id'):
+            tmp_condition = Condition.objects.filter(user = self.request.user, pk = self.kwargs['id'])
+            tmp_condition = tmp_condition[0]
+        else:
+            tmp_condition = Condition(user = self.request.user)
+
         form = ConditionForm(self.request.POST, instance = tmp_condition)
-        return super(CreateConditionView, self).form_valid(form)
+        result = super(CreateConditionView, self).form_valid(form)
+        logger.info("Updating condition: (PK: %d) %s" % (tmp_condition.pk, tmp_condition))
+        return result
 
     @method_decorator(login_required(login_url="/improve/login/"))
     def dispatch(self, *args, **kwargs):

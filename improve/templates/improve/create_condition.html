@@ -10,9 +10,36 @@
 	{% for t, conditions in object_list.iteritems %}
     <h3>{{ t }}</h3>
 	<ul>
-        {% for c in conditions %}
-            <li>{{ c }}</li>	
+        {% for cond, form in conditions %}
+            <li>
+                <span class="inline-val">{{ cond }}</span>
+                <span class="inline-edit">
+                    <form action="save/{{ cond.pk }}/" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" id="pk" value="{{ cond.pk }}" />
+                        {{ form.as_p }}
+                        <input type="submit" value="Save" />
+                        <input type="button" name="cancel" value="Cancel" />
+                    </form>
+                </span>
+            </li>	
         {% endfor %}
 	</ul>
 	{% endfor %}
+
+    <script type="text/javascript">
+    $('.inline-val').click(function(event) {
+        $(event.target).siblings().show();
+        $(event.target).hide();
+    });
+
+    $('.inline-edit').each(function(idx, data) {
+        var target = $(data);
+
+        $('input[name="cancel"]', target).click(function(event) {
+            target.siblings().show();
+            target.hide();
+        })
+    });
+    </script>
 {% endblock %}

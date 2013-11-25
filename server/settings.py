@@ -142,7 +142,12 @@ LOGGING = {
         'console': {
             'level': 'INFO',
             'class': 'logging.StreamHandler'
-        }
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': root('improve.log')
+        },
     },
     'loggers': {
         'django.request': {
@@ -151,8 +156,8 @@ LOGGING = {
             'propagate': True,
         },
         '': {
-            'handlers': ['console'],
-            'level': 'INFO'
+            'level': 'INFO',
+            'handlers': ['file']
         }
     }
 }
