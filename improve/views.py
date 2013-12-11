@@ -29,9 +29,13 @@ def test_view(request):
     return HttpResponse(template.render(context))
 
 class ConditionForm(forms.ModelForm):
+    from datetime import datetime
+    date = forms.DateTimeField(initial = datetime.now)
+
     class Meta:
         model = Condition
-        fields = ('metric', 'metric_value')
+        fields = ('metric', 'metric_value', 'date')
+    
 
 class ConditionTypeForm(forms.ModelForm):
     class Meta:
