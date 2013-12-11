@@ -1,13 +1,66 @@
-{% extends 'improve/base.html' %}
+{% extends 'improve/base.html' %} 
 
 {% block content %}
+
+<style>
+div.page-content {
+    width: 90%;
+    overflow: hidden;
+    margin: 0 auto 0 auto;
+}
+
+div.section {
+    height: 25em;
+    margin: 0 auto 0 auto;
+}
+
+span.inline-edit {
+    background: grey;
+    display: block;
+    padding: 7px;
+    border: 1px solid black;
+}
+
+span.inline-edit p {
+    margin: 0;
+    padding: 0;
+}
+
+span.inline-edit label {
+    padding: 0;
+    width: 48%;
+    text-align: right;
+}
+
+span.inline-edit input[type="text"],submit {
+    width: 50%;
+}
+
+span.inline-edit input[type="button"],input[type="submit"] {
+    width: 33%;
+}
+
+span.inline-edit div.button-row {
+    margin-top: 7px;
+    text-align: center;
+}
+
+form {
+    margin: 0;
+    padding: 0;
+}
+
+</style>
 	Hi, {{ user.first_name }}
 	<form method="post" action="">
 		{% csrf_token %}
 		{{ form.as_p }}
 		<input type="submit" value="submit" />
 	</form>
+
+    <div class="page-content">
 	{% for t, conditions in object_list.iteritems %}
+    <div class="col-md-4 section">
     <h3>{{ t }}</h3>
 	<ul>
         {% for cond, form in conditions %}
@@ -18,16 +71,23 @@
                         {% csrf_token %}
                         <input type="hidden" id="pk" value="{{ cond.pk }}" />
                         {{ form.as_p }}
-                        <input type="submit" value="Save" />
-                        <input type="button" name="cancel" value="Cancel" />
+                        <div class="button-row">
+                            <input type="submit" value="Save" />
+                            <input type="button" name="cancel" value="Cancel" />
+                        </div>
                     </form>
                 </span>
             </li>	
         {% endfor %}
 	</ul>
+    </div>
 	{% endfor %}
 
     <script type="text/javascript">
+    $(document).ready(function() {
+        $('.inline-edit').hide();
+    });
+
     $('.inline-val').click(function(event) {
         $(event.target).siblings().show();
         $(event.target).hide();
@@ -42,4 +102,5 @@
         })
     });
     </script>
+    </div>
 {% endblock %}
